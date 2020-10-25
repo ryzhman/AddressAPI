@@ -2,9 +2,9 @@ package com.malingservice.api.service;
 
 import com.malingservice.api.entity.Address;
 
-import java.util.Set;
+import java.util.List;
 
 public interface AddressService {
 
-    Set<Address> getByString(String criteria);
+    List<Address> getByString(String criteria);
 }

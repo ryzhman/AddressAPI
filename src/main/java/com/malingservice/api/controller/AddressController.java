@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Set;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api")
@@ -22,7 +22,7 @@ public class AddressController {
 //    @GetMapping("/addresses?line1=2100&state=MD") --> perfect scenario
 //    @GetMapping("/addresses?queryString=12345") --> bad design
     @GetMapping("/addresses")
-    public ResponseEntity<Set<Address>> getAddressByCriteria(@RequestParam("queryString") String queryString) {
+    public ResponseEntity<List<Address>> getAddressByCriteria(@RequestParam("queryString") String queryString) {
         return new ResponseEntity<>(addressService.getByString(queryString), HttpStatus.OK);
     }
 

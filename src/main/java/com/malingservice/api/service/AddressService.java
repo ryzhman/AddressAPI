@@ -2,9 +2,13 @@ package com.malingservice.api.service;
 
 import com.malingservice.api.entity.Address;
 
-import java.util.List;
+import java.util.Set;
 
 public interface AddressService {
 
-    List<Address> getByString(String criteria);
+    Set<Address> getByString(String criteria);
+
+    void add(Address address);
+
+    boolean delete(Address address);
 }

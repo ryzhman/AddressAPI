@@ -6,14 +6,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/addresses")
 @AllArgsConstructor
 public class AddressController {
     private AddressService addressService;
@@ -21,9 +19,24 @@ public class AddressController {
     //    @PostMapping("/addresses") --> all params in POST request
 //    @GetMapping("/addresses?line1=2100&state=MD") --> perfect scenario
 //    @GetMapping("/addresses?queryString=12345") --> bad design
-    @GetMapping("/addresses")
-    public ResponseEntity<List<Address>> getAddressByCriteria(@RequestParam("queryString") String queryString) {
+    @GetMapping()
+    public ResponseEntity<Set<Address>> getAddressByCriteria(@RequestParam("queryString") String queryString) {
         return new ResponseEntity<>(addressService.getByString(queryString), HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<String> addAddress(@RequestBody Address address) {
+        addressService.add(address);
+        return ResponseEntity.accepted().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity deleteAddress(@RequestBody Address address) {
+        final boolean isDeleted = addressService.delete(address);
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
